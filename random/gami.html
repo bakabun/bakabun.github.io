@@ -20,10 +20,12 @@
         .content {
             padding: 15px;
         }
+        .btn {
+            width: 100%;
+        }
     </style>
     <script>
-        function getResult()
-        {
+        function getResult() {
             let txt = document.getElementById("txt-in").value;
             let lines = txt.split('\n');
             let nums = [];
@@ -33,8 +35,12 @@
             document.getElementById("txt-out").value = res;
         }
 
+        function clearText() {
+            document.getElementById("txt-out").value = "";
+        }
+
         function fallbackCopyTextToClipboard(text) {
-            var textArea = document.createElement("textarea");
+            let textArea = document.createElement("textarea");
             textArea.value = text;
 
             textArea.style.top = "0";
@@ -46,8 +52,8 @@
             textArea.select();
 
             try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'successful' : 'unsuccessful';
+                let successful = document.execCommand('copy');
+                let msg = successful ? 'successful' : 'unsuccessful';
                 console.log('Fallback: Copying text command was ' + msg);
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
@@ -62,6 +68,7 @@
                 fallbackCopyTextToClipboard(text);
                 return;
             }
+
             navigator.clipboard.writeText(text).then(function () {
                 console.log('Async: Copying to clipboard was successful!');
             }, function (err) {
@@ -69,14 +76,15 @@
             });
         }
     </script>
-    <title>Untitled</title>
+    <title>Only take first column, yes</title>
 </head>
 <body>
     <div class="container content">
         <div class="row">
             <h1>Enter text here</h1>
             <textarea id="txt-in"></textarea>
-            <button type="button" class="btn btn-secondary" onclick="getResult()">Do it!</button>
+            <div class="col-sm-6"><button type="button" class="btn btn-secondary" onclick="getResult()">Do it!</button></div>
+            <div class="col-sm-6"><button type="button" class="btn btn-danger" onclick="clearText()">Clear</button></div>
         </div>
         <div class="row">
             <h1>Output</h1>
